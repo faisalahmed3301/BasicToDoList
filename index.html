@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Todo List</title>
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="maximalist-bg">
+    <div class="bg-shape bg-shape-1"></div>
+    <div class="bg-shape bg-shape-2"></div>
+    <div class="bg-shape bg-shape-3"></div>
+    <div class="bg-shape bg-shape-4"></div>
+    <div class="bg-shape bg-shape-5"></div>
+    <div class="bg-grid"></div>
+  </div>
+
+  <main class="app-container">
+    <header class="app-header">
+      <h1 class="app-title">Todo List</h1>
+      <p class="app-subtitle">Stay organized, get things done</p>
+    </header>
+
+    <div class="ship-input-section">
+      <div class="ship-input-wrapper">
+        <input
+          type="text"
+          id="todo-input"
+          class="ship-input"
+          placeholder="What needs to be done?"
+          autocomplete="off"
+        />
+        <button id="add-todo-btn" class="ship-btn" onclick="addTodo()">
+          <span class="ship-btn-text">Ship Task</span>
+          <span class="ship-btn-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <line x1="5" y1="12" x2="19" y2="12"/>
+              <polyline points="12 5 19 12 12 19"/>
+            </svg>
+          </span>
+        </button>
+      </div>
+    </div>
+
+    <div class="todo-filters">
+      <button class="filter-btn active" data-filter="all" onclick="filterTodos('all', this)">All</button>
+      <button class="filter-btn" data-filter="active" onclick="filterTodos('active', this)">Active</button>
+      <button class="filter-btn" data-filter="completed" onclick="filterTodos('completed', this)">Completed</button>
+      <span id="todo-count" class="todo-count"></span>
+    </div>
+
+    <ul id="todo-list" class="todo-list"></ul>
+
+    <div id="empty-state" class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M9 11l3 3L22 4"/>
+        <path d="M21 12v7a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h11"/>
+      </svg>
+      <p>No tasks yet. Add one above!</p>
+    </div>
+
+    <footer class="app-footer" id="app-footer" style="display:none;">
+      <button class="btn btn-tertiary btn-sm" onclick="clearCompleted()">Clear Completed</button>
+    </footer>
+  </main>
+
+  <script src="js/toast.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
