@@ -8,11 +8,36 @@
   const footer = document.getElementById('app-footer');
   const filterBtns = document.querySelectorAll('.filter-btn');
 
-  let todos = JSON.parse(localStorage.getItem('maximalist-todos') || '[]');
+  const localStorageKey = 'maximalist-todos';
+  let todos = JSON.parse(localStorage.getItem(localStorageKey) || '[]');
+  let serverStorageAvailable = false;
   let currentFilter = 'all';
 
   function save() {
-    localStorage.setItem('maximalist-todos', JSON.stringify(todos));
+    localStorage.setItem(localStorageKey, JSON.stringify(todos));
+    if (serverStorageAvailable) {
+      fetch('/api/todos', {
+        method: 'PUT',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(todos)
+      }).catch(() => {
+        serverStorageAvailable = false;
+      });
+    }
+  }
+
+  async function loadTodos() {
+    try {
+      const response = await fetch('/api/todos');
+      if (!response.ok) throw new Error('Todo API unavailable');
+      const serverTodos = await response.json();
+      todos = serverTodos;
+      serverStorageAvailable = true;
+      localStorage.setItem(localStorageKey, JSON.stringify(todos));
+      render();
+    } catch (error) {
+      render();
+    }
   }
 
   function generateId() {
@@ -128,5 +153,5 @@
     addTodo();
   });
 
-  render();
+  loadTodos();
 })();
